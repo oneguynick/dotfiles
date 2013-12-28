@@ -1,0 +1,89 @@
+# Tab bar
+hardstatus off
+hardstatus alwayslastline
+hardstatus string "%{+b wk} %-w%{+b wk} %n %t %{-}%+w %41=%H @ %l %-= %= %D,%c:%s "
+termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+
+# cleaner shell title
+shelltitle ''
+
+# always use a login shell
+shell -$SHELL
+
+# allows you to keep what was displayed on your terminal when exiting things like man, less rather than having your terminal cleared
+altscreen on
+
+# Logoff Message
+pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."  # Emulate a logout msg
+
+# Make screen messages stand out a little more - black on bright green.
+sorendition "+b kG"
+
+# Various User Settings
+autodetach on
+multiuser off
+vbell off
+vbell_msg " *beep* "
+activity "activity in %n (%t) [%w:%s]~"
+
+msgwait 2
+
+# Programs opening by default
+screen -t "BASH" 1 
+screen -t "IRC" 2 weechat
+screen -t "HTOP" 3 htop
+screen -t "WWW" 4 links https://check.torproject.org
+#screen -t "GMAIL" 5 mutt -F /home/nickers/.muttrc-offline
+select 1
+
+# Keys
+bindkey -k k; quit
+## Shift-pg up or down to view scrollback buffer
+bindkey "^[[5;2~" eval "copy" "stuff ^u"
+bindkey -m "^[[5;2~" stuff ^u
+bindkey -m "^[[6;2~" stuff ^d
+# control + left; previous screen window
+bindkey ^[[1;5D prev
+# control + right; next screen window
+bindkey ^[[1;5C next
+# control + up; previous split screen
+bindkey ^[[1;5A focus up
+# control + down; next split screen
+bindkey ^[[1;5B focus down
+# F1 kill tab
+bindkey -k k1 kill
+# F2 write paste buffer to file
+bindkey -k k2 writebuf 
+# F3 Split horizontally
+bindkey -k k3 split
+# F4 Split vertically
+bindkey -k k4 split -v
+# F5 Remove single split
+bindkey -k k5 remove
+# F6 Remove all splits
+bindkey -k k6 only
+# F7 Urlview
+bindkey -k k7 eval "hardcopy_append off" "hardcopy -h $HOME/.screen-urlview" "screen urlview $HOME/.screen-urlview"
+# F8 New tab
+bindkey -k k8 screen
+# F9 resize -1 line
+bindkey -k k9 resize -1
+# F10 resize +1 line
+bindkey -k k; resize +1
+
+# COLORS! and some useful terminfo
+term screen-256color
+terminfo rxvt-unicode 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+
+# Do not show startup message
+startup_message off
+
+# Monitoring Messages
+defnonblock 2             # flaky/slow ssh lines
+defmonitor off         # turn monitoring on
+defmode 600
+deflogin on             # Log new screen windows in utmp.
+
+# ssh-agent-support
+unsetenv SSH_AUTH_SOCK
+setenv SSH_AUTH_SOCK "$HOME/tmp/ssh-auth-sock"
