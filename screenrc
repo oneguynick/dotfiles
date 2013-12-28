@@ -33,7 +33,7 @@ screen -t "BASH" 1
 screen -t "IRC" 2 weechat
 screen -t "HTOP" 3 htop
 screen -t "WWW" 4 links https://check.torproject.org
-#screen -t "GMAIL" 5 mutt -F /home/nickers/.muttrc-offline
+screen -t "GMAIL" 5 mutt -F /home/nickers/.muttrc-offline
 select 1
 
 # Keys
