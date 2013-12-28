@@ -1,0 +1,22 @@
+SocksListenAddress 127.0.0.1:9050
+
+Log notice file /var/log/tor/notices.log
+RunAsDaemon 1
+ControlPort 9051
+
+HiddenServiceDir /var/lib/tor/other_hidden_service/
+#HiddenServicePort 80 127.0.0.1:80
+HiddenServicePort 2222 127.0.0.1:22
+
+# Bridge
+RelayBandwidthRate 20 KB
+SocksPort 0
+ORPort 10001
+BridgeRelay 1
+Exitpolicy reject *:*
+
+# Tweaks
+CircuitBuildTimeout 5
+KeepalivePeriod 60
+NewCircuitPeriod 15
+NumEntryGuards 8
